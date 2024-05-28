@@ -1,6 +1,6 @@
 # blockchain-rs
 
-This is an implementation from scratch of a blockchain with hashing and consensus mechanism.
+Blockchain implementation with hashing and consensus mechanism.
 
 # Usage
 
