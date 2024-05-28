@@ -22,7 +22,7 @@ struct Block {
     hash: String,
 }
 
-impl Block {
+impl Block { // create new block with the index, data, and previous hash
     fn new(index: u64, data: String, previous_hash: String) -> Self {
         let timestamp = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_secs();
         let mut block = Block {
@@ -30,28 +30,28 @@ impl Block {
             timestamp,
             data,
             previous_hash: previous_hash.clone(),
-            hash: String::new(),
+            hash: String::new(), // initialize hash
         };
         block.hash = block.calculate_hash();
         block
     }
 
     fn calculate_hash(&self) -> String {
-        let mut hasher = Sha256::new();
-        hasher.update(self.index.to_string().as_bytes());
-        hasher.update(self.timestamp.to_string().as_bytes());
-        hasher.update(self.data.as_bytes());
-        hasher.update(self.previous_hash.as_bytes());
-        format!("{:x}", hasher.finalize())
+        let mut hasher = Sha256::new(); // create new hasher variable
+        hasher.update(self.index.to_string().as_bytes()); // add index to hash
+        hasher.update(self.timestamp.to_string().as_bytes()); // add timestamp to hash
+        hasher.update(self.data.as_bytes()); // add data to hash
+        hasher.update(self.previous_hash.as_bytes()); // add previous hash to current hash
+        format!("{:x}", hasher.finalize()) // return hash as hexadecimal string
     }
 }
 
 #[derive(Debug)]
 struct Blockchain {
-    chain: Vec<Block>,
+    chain: Vec<Block>, // create vector to store the blockchain
 }
 
-impl Blockchain {
+impl Blockchain { // create a new blockchain with genesis block
     fn new() -> Self {
         let mut blockchain = Blockchain { chain: Vec::new() };
         blockchain.create_genesis_block();
