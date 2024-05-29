@@ -58,30 +58,30 @@ impl Blockchain { // create a new blockchain with genesis block
         blockchain
     }
 
-    fn create_genesis_block(&mut self) {
+    fn create_genesis_block(&mut self) { // the first block (genesis block) of the blockchain is special; previous hash equals zero
         let genesis_block = Block::new(0, "Genesis Block".to_string(), "0".to_string());
         self.chain.push(genesis_block);
     }
 
-    fn add_block(&mut self, data: String) {
+    fn add_block(&mut self, data: String) { // add new blocks with given data
         let previous_block = self.chain.last().unwrap().clone();
         let new_block = Block::new(previous_block.index + 1, data, previous_block.hash);
         self.chain.push(new_block);
     }
 
-    fn is_chain_valid(&self) -> bool {
+    fn is_chain_valid(&self) -> bool { // check if blockchain is valid up to the current block
         for i in 1..self.chain.len() {
             let current_block = &self.chain[i];
             let previous_block = &self.chain[i - 1];
 
-            if current_block.hash != current_block.calculate_hash() {
+            if current_block.hash != current_block.calculate_hash() { // check current block's hash for validity
                 return false;
             }
 
-            if current_block.previous_hash != previous_block.hash {
+            if current_block.previous_hash != previous_block.hash { // check previous block's hash for validity
                 return false;
             }
         }
-        true
+        true // if all checks are valid: consensus is achieved
     }
 }
